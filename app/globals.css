@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: var(--font-display-sans), serif;
+  --font-sans: var(--font-body-sans), ui-sans-serif, system-ui, sans-serif;
+
+  --color-cream: #fbf5eb;
+  --color-cream-100: #f4ecdc;
+  --color-paper: #fffdf8;
+
+  --color-terracotta: #c9622f;
+  --color-terracotta-100: #f3ddce;
+  --color-terracotta-600: #a94c1f;
+
+  --color-olive: #4d5f3d;
+  --color-olive-100: #dde5d2;
+  --color-olive-600: #384a2c;
+
+  --color-gold: #dfa438;
+  --color-gold-100: #f7e6bd;
+
+  --color-ink: #3a2f28;
+  --color-ink-soft: #6f6259;
+
+  --color-berry: #a5384a;
+  --color-berry-100: #f2dade;
+  --color-berry-600: #832a38;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  background-image:
+    radial-gradient(circle at 8% 8%, rgba(201, 98, 47, 0.08), transparent 40%),
+    radial-gradient(circle at 92% 4%, rgba(77, 95, 61, 0.08), transparent 35%);
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-terracotta-100);
+  border-radius: 999px;
+}
+
+.card-texture {
+  background-image: radial-gradient(rgba(58, 47, 40, 0.035) 1px, transparent 1px);
+  background-size: 14px 14px;
+}
