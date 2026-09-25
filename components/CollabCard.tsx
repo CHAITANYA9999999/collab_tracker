@@ -29,7 +29,7 @@ export function CollabCard({
   const [confirmingDelete, setConfirmingDelete] = useState(false);
 
   return (
-    <div className="card-texture flex flex-col gap-3 rounded-3xl border border-terracotta-100 bg-paper p-5 shadow-[0_12px_30px_-18px_rgba(58,47,40,0.25)] transition hover:shadow-[0_16px_36px_-16px_rgba(58,47,40,0.3)]">
+    <div className="card-texture flex h-full flex-col gap-3 rounded-3xl border border-terracotta-100 bg-paper p-5 shadow-[0_12px_30px_-18px_rgba(58,47,40,0.25)] transition hover:shadow-[0_16px_36px_-16px_rgba(58,47,40,0.3)]">
       <div className="flex items-start justify-between gap-3">
         <div>
           <h3 className="font-display text-lg font-semibold text-ink">{collab.brandName}</h3>
@@ -145,7 +145,7 @@ export function CollabCard({
         </div>
       )}
 
-      <div className="mt-1 flex justify-end gap-1 border-t border-terracotta-100/70 pt-3">
+      <div className="mt-auto flex justify-end gap-1 border-t border-terracotta-100/70 pt-3">
         <button
           onClick={() => onEdit(collab)}
           className="flex items-center gap-1 rounded-full px-3 py-1.5 text-xs font-medium text-ink-soft hover:bg-cream"
