@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { X } from "lucide-react";
-import type { Collab, CollabInput, CollabMode, CollabType } from "@/lib/types";
+import type { AdRightsType, Collab, CollabInput, CollabMode, CollabType } from "@/lib/types";
 
 interface CollabFormDialogProps {
   open: boolean;
@@ -24,6 +24,8 @@ const empty: CollabInput = {
   pocPhone: "",
   description: "",
   review: "",
+  adRightsType: "none",
+  adRightsDays: null,
   mode: "offline",
   visitingDate: null,
   platform: "",
@@ -50,6 +52,8 @@ export function CollabFormDialog({ open, onClose, onSubmit, initial }: CollabFor
               pocPhone: initial.pocPhone,
               description: initial.description,
               review: initial.review ?? "",
+              adRightsType: initial.adRightsType ?? "none",
+              adRightsDays: initial.adRightsDays ?? null,
               mode: initial.mode,
               visitingDate: initial.visitingDate,
               platform: initial.platform,
@@ -72,6 +76,7 @@ export function CollabFormDialog({ open, onClose, onSubmit, initial }: CollabFor
       await onSubmit({
         ...form,
         visitingDate: form.mode === "online" ? null : form.visitingDate,
+        adRightsDays: form.adRightsType === "limited" ? form.adRightsDays : null,
       });
       onClose();
     } finally {
@@ -157,6 +162,34 @@ export function CollabFormDialog({ open, onClose, onSubmit, initial }: CollabFor
               className="input"
             />
           </Field>
+
+          <Field label="Ad rights">
+            <select
+              value={form.adRightsType}
+              onChange={(e) => {
+                const value = e.target.value as AdRightsType;
+                update("adRightsType", value);
+                if (value !== "limited") update("adRightsDays", null);
+              }}
+              className="input"
+            >
+              <option value="none">None</option>
+              <option value="limited">Limited (days)</option>
+              <option value="lifetime">Lifetime</option>
+            </select>
+          </Field>
+          {form.adRightsType === "limited" && (
+            <Field label="Ad rights duration (days)">
+              <input
+                type="number"
+                min={1}
+                value={form.adRightsDays ?? ""}
+                onChange={(e) => update("adRightsDays", e.target.value ? Number(e.target.value) : null)}
+                placeholder="e.g. 30"
+                className="input"
+              />
+            </Field>
+          )}
 
           {form.collabType === "paid" && (
             <>

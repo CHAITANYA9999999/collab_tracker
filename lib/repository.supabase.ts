@@ -21,6 +21,8 @@ type Row = {
   poc_phone: string;
   description: string;
   review: string;
+  ad_rights_type: string;
+  ad_rights_days: number | null;
   mode: string;
   visiting_date: string | null;
   platform: string;
@@ -48,6 +50,8 @@ function toCollab(row: Row): Collab {
     pocPhone: row.poc_phone,
     description: row.description,
     review: row.review,
+    adRightsType: row.ad_rights_type as Collab["adRightsType"],
+    adRightsDays: row.ad_rights_days,
     mode: row.mode as Collab["mode"],
     visitingDate: row.visiting_date,
     platform: row.platform,
@@ -77,6 +81,8 @@ function toRow(
   if (input.pocPhone !== undefined) row.poc_phone = input.pocPhone;
   if (input.description !== undefined) row.description = input.description;
   if (input.review !== undefined) row.review = input.review;
+  if (input.adRightsType !== undefined) row.ad_rights_type = input.adRightsType;
+  if (input.adRightsDays !== undefined) row.ad_rights_days = input.adRightsDays;
   if (input.mode !== undefined) row.mode = input.mode;
   if (input.visitingDate !== undefined) row.visiting_date = input.visitingDate;
   if (input.platform !== undefined) row.platform = input.platform;

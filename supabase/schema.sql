@@ -12,6 +12,11 @@ do $$ begin
 exception when duplicate_object then null;
 end $$;
 
+do $$ begin
+  create type ad_rights_type as enum ('none', 'limited', 'lifetime');
+exception when duplicate_object then null;
+end $$;
+
 create table if not exists collabs (
   id uuid primary key default gen_random_uuid(),
   brand_name text not null,
@@ -31,6 +36,8 @@ create table if not exists collabs (
   poc_phone text default '',
   description text default '',
   review text default '',
+  ad_rights_type ad_rights_type not null default 'none',
+  ad_rights_days int,
   mode collab_mode not null default 'offline',
   visiting_date date,
   platform text default '',
@@ -43,6 +50,8 @@ alter table collabs add column if not exists review text default '';
 alter table collabs add column if not exists reels_done boolean not null default false;
 alter table collabs add column if not exists stories_done boolean not null default false;
 alter table collabs add column if not exists posts_done boolean not null default false;
+alter table collabs add column if not exists ad_rights_type ad_rights_type not null default 'none';
+alter table collabs add column if not exists ad_rights_days int;
 
 create index if not exists collabs_completed_idx on collabs (completed);
 create index if not exists collabs_due_date_idx on collabs (due_date);

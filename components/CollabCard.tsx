@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Film, Camera, FileText, Phone, Calendar, ChevronDown, Pencil, Trash2, Check, type LucideIcon } from "lucide-react";
+import { Film, Camera, FileText, Phone, Calendar, ChevronDown, Pencil, Trash2, Check, Megaphone, type LucideIcon } from "lucide-react";
 import type { Collab } from "@/lib/types";
 import { TypeBadge, ModeBadge, DueBadge } from "./Badges";
 import { formatMoney, cn } from "@/lib/utils";
@@ -88,6 +88,12 @@ export function CollabCard({
           <Calendar size={12} />
           Visit: {collab.mode === "online" ? "NA" : collab.visitingDate ? new Date(collab.visitingDate).toLocaleDateString("en-IN", { day: "numeric", month: "short" }) : "Not set"}
         </span>
+        {collab.adRightsType && collab.adRightsType !== "none" && (
+          <span className="flex items-center gap-1 rounded-full bg-gold-100 px-2.5 py-1 text-xs font-semibold text-terracotta-600">
+            <Megaphone size={12} />
+            Ad rights: {collab.adRightsType === "lifetime" ? "Lifetime" : `${collab.adRightsDays ?? "?"} days`}
+          </span>
+        )}
       </div>
 
       {(collab.pocName || collab.pocPhone) && (

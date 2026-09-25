@@ -1,5 +1,6 @@
 export type CollabType = "barter" | "paid";
 export type CollabMode = "online" | "offline";
+export type AdRightsType = "none" | "limited" | "lifetime";
 
 export interface Collab {
   id: string;
@@ -20,6 +21,8 @@ export interface Collab {
   pocPhone: string;
   description: string;
   review: string;
+  adRightsType: AdRightsType;
+  adRightsDays: number | null; // used only when adRightsType is "limited"
   mode: CollabMode;
   visitingDate: string | null; // ISO date, null when mode is "online"
   platform: string;

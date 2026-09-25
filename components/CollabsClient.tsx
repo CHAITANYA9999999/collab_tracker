@@ -6,7 +6,7 @@ import type { Collab, CollabInput, CollabType, CollabMode } from "@/lib/types";
 import { CollabCard } from "./CollabCard";
 import { CollabFormDialog } from "./CollabFormDialog";
 
-type SortKey = "dueDate" | "visitingDate" | "brandName";
+type SortKey = "dueDate" | "visitingDate" | "brandName" | "createdAt";
 type TypeFilter = "all" | CollabType;
 type ModeFilter = "all" | CollabMode;
 
@@ -33,6 +33,9 @@ export function CollabsClient({ initialCollabs }: { initialCollabs: Collab[] }) 
     const dir = sortDir === "asc" ? 1 : -1;
     list = [...list].sort((a, b) => {
       if (sortKey === "brandName") return a.brandName.localeCompare(b.brandName) * dir;
+      if (sortKey === "createdAt") {
+        return (new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()) * dir;
+      }
       const aVal = sortKey === "dueDate" ? a.dueDate : a.visitingDate;
       const bVal = sortKey === "dueDate" ? b.dueDate : b.visitingDate;
       if (!aVal && !bVal) return 0;
@@ -158,6 +161,7 @@ export function CollabsClient({ initialCollabs }: { initialCollabs: Collab[] }) 
           <option value="dueDate">Sort: Due date</option>
           <option value="visitingDate">Sort: Visiting date</option>
           <option value="brandName">Sort: Brand name</option>
+          <option value="createdAt">Sort: Date added</option>
         </select>
 
         <button

@@ -28,6 +28,8 @@ export async function POST(request: Request) {
     pocPhone: body.pocPhone ?? "",
     description: body.description ?? "",
     review: body.review ?? "",
+    adRightsType: body.adRightsType ?? "none",
+    adRightsDays: body.adRightsType === "limited" ? body.adRightsDays ?? null : null,
     mode: body.mode,
     visitingDate: body.mode === "online" ? null : body.visitingDate ?? null,
     platform: body.platform ?? "",
