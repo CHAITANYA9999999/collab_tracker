@@ -16,10 +16,10 @@ const empty: CollabInput = {
   collabType: "barter",
   expectedReels: 0,
   expectedStories: 0,
-  expectedPosts: 0,
   dueDate: null,
   paymentAmount: null,
   paymentReceived: false,
+  barterValue: null,
   pocName: "",
   pocPhone: "",
   description: "",
@@ -44,10 +44,10 @@ export function CollabFormDialog({ open, onClose, onSubmit, initial }: CollabFor
               collabType: initial.collabType,
               expectedReels: initial.expectedReels,
               expectedStories: initial.expectedStories,
-              expectedPosts: initial.expectedPosts,
               dueDate: initial.dueDate,
               paymentAmount: initial.paymentAmount,
               paymentReceived: initial.paymentReceived,
+              barterValue: initial.barterValue ?? null,
               pocName: initial.pocName,
               pocPhone: initial.pocPhone,
               description: initial.description,
@@ -77,6 +77,9 @@ export function CollabFormDialog({ open, onClose, onSubmit, initial }: CollabFor
         ...form,
         visitingDate: form.mode === "online" ? null : form.visitingDate,
         adRightsDays: form.adRightsType === "limited" ? form.adRightsDays : null,
+        paymentAmount: form.collabType === "paid" ? form.paymentAmount : null,
+        paymentReceived: form.collabType === "paid" ? form.paymentReceived : false,
+        barterValue: form.collabType === "barter" ? form.barterValue : null,
       });
       onClose();
     } finally {
@@ -144,16 +147,6 @@ export function CollabFormDialog({ open, onClose, onSubmit, initial }: CollabFor
               className="input"
             />
           </Field>
-          <Field label="Expected posts">
-            <input
-              type="number"
-              min={0}
-              value={form.expectedPosts}
-              onChange={(e) => update("expectedPosts", Number(e.target.value))}
-              className="input"
-            />
-          </Field>
-
           <Field label="Due date">
             <input
               type="date"
@@ -214,6 +207,19 @@ export function CollabFormDialog({ open, onClose, onSubmit, initial }: CollabFor
                 </label>
               </Field>
             </>
+          )}
+
+          {form.collabType === "barter" && (
+            <Field label="Estimated barter value (₹)">
+              <input
+                type="number"
+                min={0}
+                value={form.barterValue ?? ""}
+                onChange={(e) => update("barterValue", e.target.value ? Number(e.target.value) : null)}
+                placeholder="Value of food/products received"
+                className="input"
+              />
+            </Field>
           )}
 
           <Field label="POC name">

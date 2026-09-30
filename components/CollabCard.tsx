@@ -1,12 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { Film, Camera, FileText, Phone, Calendar, ChevronDown, Pencil, Trash2, Check, Megaphone, type LucideIcon } from "lucide-react";
+import { Film, Camera, Phone, Calendar, ChevronDown, Pencil, Trash2, Check, Megaphone, Gift, type LucideIcon } from "lucide-react";
 import type { Collab } from "@/lib/types";
 import { TypeBadge, ModeBadge, DueBadge } from "./Badges";
 import { formatMoney, cn } from "@/lib/utils";
 
-type Deliverable = "reelsDone" | "storiesDone" | "postsDone";
+type Deliverable = "reelsDone" | "storiesDone";
 
 interface CollabCardProps {
   collab: Collab;
@@ -74,12 +74,6 @@ export function CollabCard({
           done={collab.storiesDone}
           onClick={() => onToggleDeliverable(collab.id, "storiesDone", !collab.storiesDone)}
         />
-        <DeliverableChip
-          icon={FileText}
-          label={`${collab.expectedPosts} posts`}
-          done={collab.postsDone}
-          onClick={() => onToggleDeliverable(collab.id, "postsDone", !collab.postsDone)}
-        />
       </div>
 
       <div className="flex flex-wrap items-center gap-2">
@@ -118,6 +112,13 @@ export function CollabCard({
           />
           Payment received{collab.paymentAmount ? ` — ${formatMoney(collab.paymentAmount)}` : ""}
         </label>
+      )}
+
+      {collab.collabType === "barter" && collab.barterValue !== null && collab.barterValue !== undefined && (
+        <div className="flex items-center gap-2 text-sm text-ink">
+          <Gift size={14} className="text-terracotta" />
+          Estimated value: {formatMoney(collab.barterValue)}
+        </div>
       )}
 
       {(collab.description || collab.review) && (

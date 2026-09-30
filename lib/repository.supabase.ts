@@ -8,13 +8,12 @@ type Row = {
   collab_type: string;
   expected_reels: number;
   expected_stories: number;
-  expected_posts: number;
   reels_done: boolean;
   stories_done: boolean;
-  posts_done: boolean;
   due_date: string | null;
   payment_amount: number | null;
   payment_received: boolean;
+  barter_value: number | null;
   completed: boolean;
   completed_at: string | null;
   poc_name: string;
@@ -37,13 +36,12 @@ function toCollab(row: Row): Collab {
     collabType: row.collab_type as Collab["collabType"],
     expectedReels: row.expected_reels,
     expectedStories: row.expected_stories,
-    expectedPosts: row.expected_posts,
     reelsDone: row.reels_done,
     storiesDone: row.stories_done,
-    postsDone: row.posts_done,
     dueDate: row.due_date,
     paymentAmount: row.payment_amount,
     paymentReceived: row.payment_received,
+    barterValue: row.barter_value,
     completed: row.completed,
     completedAt: row.completed_at,
     pocName: row.poc_name,
@@ -61,20 +59,19 @@ function toCollab(row: Row): Collab {
 }
 
 function toRow(
-  input: Partial<CollabInput & { completed: boolean; completedAt: string | null; reelsDone: boolean; storiesDone: boolean; postsDone: boolean }>
+  input: Partial<CollabInput & { completed: boolean; completedAt: string | null; reelsDone: boolean; storiesDone: boolean }>
 ) {
   const row: Record<string, unknown> = {};
   if (input.brandName !== undefined) row.brand_name = input.brandName;
   if (input.collabType !== undefined) row.collab_type = input.collabType;
   if (input.expectedReels !== undefined) row.expected_reels = input.expectedReels;
   if (input.expectedStories !== undefined) row.expected_stories = input.expectedStories;
-  if (input.expectedPosts !== undefined) row.expected_posts = input.expectedPosts;
   if (input.reelsDone !== undefined) row.reels_done = input.reelsDone;
   if (input.storiesDone !== undefined) row.stories_done = input.storiesDone;
-  if (input.postsDone !== undefined) row.posts_done = input.postsDone;
   if (input.dueDate !== undefined) row.due_date = input.dueDate;
   if (input.paymentAmount !== undefined) row.payment_amount = input.paymentAmount;
   if (input.paymentReceived !== undefined) row.payment_received = input.paymentReceived;
+  if (input.barterValue !== undefined) row.barter_value = input.barterValue;
   if (input.completed !== undefined) row.completed = input.completed;
   if (input.completedAt !== undefined) row.completed_at = input.completedAt;
   if (input.pocName !== undefined) row.poc_name = input.pocName;

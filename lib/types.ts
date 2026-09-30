@@ -8,13 +8,12 @@ export interface Collab {
   collabType: CollabType;
   expectedReels: number;
   expectedStories: number;
-  expectedPosts: number;
   reelsDone: boolean;
   storiesDone: boolean;
-  postsDone: boolean;
   dueDate: string | null; // ISO date
   paymentAmount: number | null;
   paymentReceived: boolean;
+  barterValue: number | null; // estimated ₹ value of barter perks received
   completed: boolean;
   completedAt: string | null;
   pocName: string;
@@ -32,12 +31,11 @@ export interface Collab {
 
 export type CollabInput = Omit<
   Collab,
-  "id" | "createdAt" | "updatedAt" | "completed" | "completedAt" | "reelsDone" | "storiesDone" | "postsDone"
+  "id" | "createdAt" | "updatedAt" | "completed" | "completedAt" | "reelsDone" | "storiesDone"
 >;
 
 export type CollabUpdate = Partial<CollabInput> & {
   completed?: boolean;
   reelsDone?: boolean;
   storiesDone?: boolean;
-  postsDone?: boolean;
 };

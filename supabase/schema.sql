@@ -23,13 +23,12 @@ create table if not exists collabs (
   collab_type collab_type not null default 'barter',
   expected_reels int not null default 0,
   expected_stories int not null default 0,
-  expected_posts int not null default 0,
   reels_done boolean not null default false,
   stories_done boolean not null default false,
-  posts_done boolean not null default false,
   due_date date,
   payment_amount numeric,
   payment_received boolean not null default false,
+  barter_value numeric,
   completed boolean not null default false,
   completed_at timestamptz,
   poc_name text default '',
@@ -49,9 +48,13 @@ create table if not exists collabs (
 alter table collabs add column if not exists review text default '';
 alter table collabs add column if not exists reels_done boolean not null default false;
 alter table collabs add column if not exists stories_done boolean not null default false;
-alter table collabs add column if not exists posts_done boolean not null default false;
 alter table collabs add column if not exists ad_rights_type ad_rights_type not null default 'none';
 alter table collabs add column if not exists ad_rights_days int;
+alter table collabs add column if not exists barter_value numeric;
+
+-- "Posts" is no longer tracked as a collab deliverable — drop the columns.
+alter table collabs drop column if exists expected_posts;
+alter table collabs drop column if exists posts_done;
 
 create index if not exists collabs_completed_idx on collabs (completed);
 create index if not exists collabs_due_date_idx on collabs (due_date);

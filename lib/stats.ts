@@ -6,11 +6,22 @@ export function totalEarned(collabs: Collab[]): number {
     .reduce((sum, c) => sum + (c.paymentAmount ?? 0), 0);
 }
 
+export function totalBarterValue(collabs: Collab[]): number {
+  return collabs
+    .filter((c) => c.collabType === "barter")
+    .reduce((sum, c) => sum + (c.barterValue ?? 0), 0);
+}
+
 export function dueWithinDays(collabs: Collab[], days: number): Collab[] {
   const cutoff = Date.now() + days * 86_400_000;
   return collabs.filter(
     (c) => !c.completed && c.dueDate && new Date(c.dueDate).getTime() <= cutoff
   );
+}
+
+export function overdueCollabs(collabs: Collab[]): Collab[] {
+  const now = Date.now();
+  return collabs.filter((c) => !c.completed && c.dueDate && new Date(c.dueDate).getTime() < now);
 }
 
 export function monthlySeries(collabs: Collab[], months = 6) {

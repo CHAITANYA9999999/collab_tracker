@@ -1,7 +1,17 @@
 import Link from "next/link";
-import { Wallet, Handshake, CheckCircle2, CalendarClock, Plus, ArrowUpRight } from "lucide-react";
+import {
+  Wallet,
+  Banknote,
+  Gift,
+  Handshake,
+  CheckCircle2,
+  CalendarClock,
+  AlertTriangle,
+  Plus,
+  ArrowUpRight,
+} from "lucide-react";
 import { getRepository } from "@/lib/repository";
-import { dueWithinDays, monthlySeries, totalEarned, typeSplit } from "@/lib/stats";
+import { dueWithinDays, monthlySeries, overdueCollabs, totalBarterValue, totalEarned, typeSplit } from "@/lib/stats";
 import { formatMoney } from "@/lib/utils";
 import { Navbar } from "@/components/Navbar";
 import { StatCard } from "@/components/StatCard";
@@ -18,6 +28,9 @@ export default async function DashboardPage() {
   const active = collabs.filter((c) => !c.completed);
   const completed = collabs.filter((c) => c.completed);
   const dueSoon = dueWithinDays(collabs, 7);
+  const overdue = overdueCollabs(collabs);
+  const cashEarned = totalEarned(collabs);
+  const barterValue = totalBarterValue(collabs);
   const trend = monthlySeries(collabs);
   const split = typeSplit(collabs);
   const upcoming = [...active]
@@ -46,10 +59,28 @@ export default async function DashboardPage() {
         </div>
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <StatCard label="Total earned" value={formatMoney(totalEarned(collabs))} icon={Wallet} tone="terracotta" hint="From paid collabs, received" />
+          <StatCard
+            label="Total value (cash + barter)"
+            value={formatMoney(cashEarned + barterValue)}
+            icon={Wallet}
+            tone="terracotta"
+            hint="Cash received + estimated barter value"
+          />
           <StatCard label="Active collabs" value={String(active.length)} icon={Handshake} tone="gold" hint="In progress right now" />
           <StatCard label="Completed" value={String(completed.length)} icon={CheckCircle2} tone="olive" hint="Wrapped up all-time" />
           <StatCard label="Due within 7 days" value={String(dueSoon.length)} icon={CalendarClock} tone="berry" hint="Keep an eye on these" />
+        </div>
+
+        <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <StatCard label="Cash earned" value={formatMoney(cashEarned)} icon={Banknote} tone="olive" hint="From paid collabs, received" />
+          <StatCard label="Barter value" value={formatMoney(barterValue)} icon={Gift} tone="gold" hint="Estimated value of food/products" />
+          <StatCard
+            label="Overdue deliverables"
+            value={String(overdue.length)}
+            icon={AlertTriangle}
+            tone="berry"
+            hint={overdue.length > 0 ? "Past due date, not yet completed" : "Nothing overdue"}
+          />
         </div>
 
         <div className="mt-5 grid grid-cols-1 gap-4 lg:grid-cols-3">

@@ -36,7 +36,6 @@ export class LocalJsonRepository implements CollabRepository {
       id: crypto.randomUUID(),
       reelsDone: false,
       storiesDone: false,
-      postsDone: false,
       completed: false,
       completedAt: null,
       createdAt: now,
