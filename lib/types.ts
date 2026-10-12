@@ -39,3 +39,14 @@ export type CollabUpdate = Partial<CollabInput> & {
   reelsDone?: boolean;
   storiesDone?: boolean;
 };
+
+export interface Expense {
+  id: string;
+  description: string;
+  amount: number;
+  expenseDate: string | null; // ISO date
+  createdAt: string;
+  updatedAt: string;
+}
+
+export type ExpenseInput = Omit<Expense, "id" | "createdAt" | "updatedAt">;

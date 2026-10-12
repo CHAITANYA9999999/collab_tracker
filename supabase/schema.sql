@@ -63,3 +63,17 @@ create index if not exists collabs_due_date_idx on collabs (due_date);
 -- service role key (used by this app's server-side API routes) can read/write.
 -- The anon/public key is never used by this app, so this table stays private.
 alter table collabs enable row level security;
+
+create table if not exists expenses (
+  id uuid primary key default gen_random_uuid(),
+  description text not null default '',
+  amount numeric not null,
+  expense_date date,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create index if not exists expenses_expense_date_idx on expenses (expense_date);
+
+-- Same private-by-default setup as the collabs table.
+alter table expenses enable row level security;

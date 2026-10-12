@@ -23,7 +23,7 @@ export async function POST(request: Request) {
     dueDate: body.dueDate ?? null,
     paymentAmount: body.collabType === "paid" ? body.paymentAmount ?? null : null,
     paymentReceived: body.collabType === "paid" ? body.paymentReceived ?? false : false,
-    barterValue: body.collabType === "barter" ? body.barterValue ?? null : null,
+    barterValue: body.barterValue ?? null,
     pocName: body.pocName ?? "",
     pocPhone: body.pocPhone ?? "",
     description: body.description ?? "",

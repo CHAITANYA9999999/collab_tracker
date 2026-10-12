@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ChefHat, LayoutGrid, Handshake, LogOut } from "lucide-react";
+import { ChefHat, LayoutGrid, Handshake, Receipt, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const links = [
   { href: "/", label: "Dashboard", icon: LayoutGrid },
   { href: "/collabs", label: "Collabs", icon: Handshake },
+  { href: "/expenses", label: "Expenses", icon: Receipt },
 ];
 
 export function Navbar() {

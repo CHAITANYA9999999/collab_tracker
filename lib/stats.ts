@@ -1,4 +1,4 @@
-import type { Collab } from "./types";
+import type { Collab, Expense } from "./types";
 
 export function totalEarned(collabs: Collab[]): number {
   return collabs
@@ -7,9 +7,13 @@ export function totalEarned(collabs: Collab[]): number {
 }
 
 export function totalBarterValue(collabs: Collab[]): number {
-  return collabs
-    .filter((c) => c.collabType === "barter")
-    .reduce((sum, c) => sum + (c.barterValue ?? 0), 0);
+  // Perk/barter value can be logged on any collab, paid or barter, so it's
+  // not filtered by collabType — it represents extras received on top of cash.
+  return collabs.reduce((sum, c) => sum + (c.barterValue ?? 0), 0);
+}
+
+export function totalExpenses(expenses: Expense[]): number {
+  return expenses.reduce((sum, e) => sum + e.amount, 0);
 }
 
 export function dueWithinDays(collabs: Collab[], days: number): Collab[] {

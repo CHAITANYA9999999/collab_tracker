@@ -79,7 +79,6 @@ export function CollabFormDialog({ open, onClose, onSubmit, initial }: CollabFor
         adRightsDays: form.adRightsType === "limited" ? form.adRightsDays : null,
         paymentAmount: form.collabType === "paid" ? form.paymentAmount : null,
         paymentReceived: form.collabType === "paid" ? form.paymentReceived : false,
-        barterValue: form.collabType === "barter" ? form.barterValue : null,
       });
       onClose();
     } finally {
@@ -209,18 +208,16 @@ export function CollabFormDialog({ open, onClose, onSubmit, initial }: CollabFor
             </>
           )}
 
-          {form.collabType === "barter" && (
-            <Field label="Estimated barter value (₹)">
-              <input
-                type="number"
-                min={0}
-                value={form.barterValue ?? ""}
-                onChange={(e) => update("barterValue", e.target.value ? Number(e.target.value) : null)}
-                placeholder="Value of food/products received"
-                className="input"
-              />
-            </Field>
-          )}
+          <Field label="Estimated barter/perk value (₹)">
+            <input
+              type="number"
+              min={0}
+              value={form.barterValue ?? ""}
+              onChange={(e) => update("barterValue", e.target.value ? Number(e.target.value) : null)}
+              placeholder="Value of food/products received"
+              className="input"
+            />
+          </Field>
 
           <Field label="POC name">
             <input

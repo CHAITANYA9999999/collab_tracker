@@ -9,5 +9,7 @@ const currencySymbol = process.env.NEXT_PUBLIC_CURRENCY_SYMBOL || "₹";
 
 export function formatMoney(amount: number | null | undefined): string {
   if (amount === null || amount === undefined) return `${currencySymbol}0`;
-  return `${currencySymbol}${amount.toLocaleString("en-IN")}`;
+  const negative = amount < 0;
+  const abs = Math.abs(amount);
+  return `${negative ? "-" : ""}${currencySymbol}${abs.toLocaleString("en-IN")}`;
 }

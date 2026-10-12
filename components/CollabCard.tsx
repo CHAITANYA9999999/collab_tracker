@@ -114,10 +114,10 @@ export function CollabCard({
         </label>
       )}
 
-      {collab.collabType === "barter" && collab.barterValue !== null && collab.barterValue !== undefined && (
+      {collab.barterValue !== null && collab.barterValue !== undefined && (
         <div className="flex items-center gap-2 text-sm text-ink">
           <Gift size={14} className="text-terracotta" />
-          Estimated value: {formatMoney(collab.barterValue)}
+          Estimated perk value: {formatMoney(collab.barterValue)}
         </div>
       )}
 

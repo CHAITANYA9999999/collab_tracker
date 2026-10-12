@@ -3,6 +3,7 @@ import {
   Wallet,
   Banknote,
   Gift,
+  Receipt,
   Handshake,
   CheckCircle2,
   CalendarClock,
@@ -11,7 +12,16 @@ import {
   ArrowUpRight,
 } from "lucide-react";
 import { getRepository } from "@/lib/repository";
-import { dueWithinDays, monthlySeries, overdueCollabs, totalBarterValue, totalEarned, typeSplit } from "@/lib/stats";
+import { getExpenseRepository } from "@/lib/expenseRepository";
+import {
+  dueWithinDays,
+  monthlySeries,
+  overdueCollabs,
+  totalBarterValue,
+  totalEarned,
+  totalExpenses,
+  typeSplit,
+} from "@/lib/stats";
 import { formatMoney } from "@/lib/utils";
 import { Navbar } from "@/components/Navbar";
 import { StatCard } from "@/components/StatCard";
@@ -24,6 +34,8 @@ export const dynamic = "force-dynamic";
 export default async function DashboardPage() {
   const repo = await getRepository();
   const collabs = await repo.list();
+  const expenseRepo = await getExpenseRepository();
+  const expenses = await expenseRepo.list();
 
   const active = collabs.filter((c) => !c.completed);
   const completed = collabs.filter((c) => c.completed);
@@ -31,6 +43,8 @@ export default async function DashboardPage() {
   const overdue = overdueCollabs(collabs);
   const cashEarned = totalEarned(collabs);
   const barterValue = totalBarterValue(collabs);
+  const expensesTotal = totalExpenses(expenses);
+  const netCash = cashEarned - expensesTotal;
   const trend = monthlySeries(collabs);
   const split = typeSplit(collabs);
   const upcoming = [...active]
@@ -60,20 +74,27 @@ export default async function DashboardPage() {
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <StatCard
-            label="Total value (cash + barter)"
-            value={formatMoney(cashEarned + barterValue)}
+            label="Total Cash"
+            value={formatMoney(netCash)}
             icon={Wallet}
             tone="terracotta"
-            hint="Cash received + estimated barter value"
+            hint="Paid collab cash - expenses"
           />
           <StatCard label="Active collabs" value={String(active.length)} icon={Handshake} tone="gold" hint="In progress right now" />
           <StatCard label="Completed" value={String(completed.length)} icon={CheckCircle2} tone="olive" hint="Wrapped up all-time" />
           <StatCard label="Due within 7 days" value={String(dueSoon.length)} icon={CalendarClock} tone="berry" hint="Keep an eye on these" />
         </div>
 
-        <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <StatCard label="Cash earned" value={formatMoney(cashEarned)} icon={Banknote} tone="olive" hint="From paid collabs, received" />
-          <StatCard label="Barter value" value={formatMoney(barterValue)} icon={Gift} tone="gold" hint="Estimated value of food/products" />
+          <StatCard label="Barter/perk value" value={formatMoney(barterValue)} icon={Gift} tone="gold" hint="Estimated value across all collabs" />
+          <StatCard
+            label="Total expenses"
+            value={formatMoney(expensesTotal)}
+            icon={Receipt}
+            tone="berry"
+            hint="See the Expenses page"
+          />
           <StatCard
             label="Overdue deliverables"
             value={String(overdue.length)}
