@@ -43,19 +43,19 @@ export function monthlySeries(collabs: Collab[], months = 6) {
   const byKey = new Map(buckets.map((b) => [b.key, b]));
 
   for (const c of collabs) {
-    const created = new Date(c.createdAt);
-    const addedKey = `${created.getFullYear()}-${created.getMonth()}`;
-    const addedBucket = byKey.get(addedKey);
-    if (addedBucket) addedBucket.collabs += 1;
+    if (!c.completed || !c.completedAt) continue;
 
-    // Earnings land in the month the collab was closed out, not when it was
-    // added — a collab added in September but completed in October counts
-    // as October's earnings.
-    if (c.collabType === "paid" && c.paymentReceived && c.completed && c.completedAt) {
-      const closed = new Date(c.completedAt);
-      const closedKey = `${closed.getFullYear()}-${closed.getMonth()}`;
-      const closedBucket = byKey.get(closedKey);
-      if (closedBucket) closedBucket.earnings += c.paymentAmount ?? 0;
+    // Both the completed count and its earnings land in the month the collab
+    // was closed out, not when it was added — a collab added in September
+    // but completed in October counts as October's.
+    const closed = new Date(c.completedAt);
+    const closedKey = `${closed.getFullYear()}-${closed.getMonth()}`;
+    const closedBucket = byKey.get(closedKey);
+    if (!closedBucket) continue;
+
+    closedBucket.collabs += 1;
+    if (c.collabType === "paid" && c.paymentReceived) {
+      closedBucket.earnings += c.paymentAmount ?? 0;
     }
   }
 

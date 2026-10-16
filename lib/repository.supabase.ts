@@ -117,7 +117,13 @@ export class SupabaseRepository implements CollabRepository {
   }
 
   async update(id: string, patch: CollabUpdate): Promise<Collab> {
-    const row = toRow(patch);
+    const effectivePatch: CollabUpdate = { ...patch };
+    if (patch.completed === true) {
+      effectivePatch.completedAt = new Date().toISOString();
+    } else if (patch.completed === false) {
+      effectivePatch.completedAt = null;
+    }
+    const row = toRow(effectivePatch);
     row.updated_at = new Date().toISOString();
     const { data, error } = await this.client
       .from("collabs")

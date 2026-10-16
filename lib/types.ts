@@ -36,6 +36,7 @@ export type CollabInput = Omit<
 
 export type CollabUpdate = Partial<CollabInput> & {
   completed?: boolean;
+  completedAt?: string | null;
   reelsDone?: boolean;
   storiesDone?: boolean;
 };

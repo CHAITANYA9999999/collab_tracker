@@ -32,7 +32,7 @@ export function TrendChart({ data }: { data: Point[] }) {
             fontSize: 13,
           }}
           formatter={(value: number, name: string) =>
-            name === "earnings" ? [`₹${value.toLocaleString("en-IN")}`, "Earnings"] : [value, "Collabs"]
+            name === "earnings" ? [`₹${value.toLocaleString("en-IN")}`, "Earnings"] : [value, "Completed"]
           }
         />
         <Bar yAxisId="left" dataKey="collabs" fill="#f3ddce" radius={[8, 8, 0, 0]} barSize={28} />

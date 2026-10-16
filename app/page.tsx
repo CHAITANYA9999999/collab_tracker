@@ -107,7 +107,7 @@ export default async function DashboardPage() {
         <div className="mt-5 grid grid-cols-1 gap-4 lg:grid-cols-3">
           <div className="rounded-3xl border border-terracotta-100 bg-paper p-5 shadow-[0_12px_30px_-18px_rgba(58,47,40,0.25)] lg:col-span-2">
             <div className="mb-2 flex items-center justify-between">
-              <h2 className="font-display text-lg font-semibold text-ink">Collabs & earnings over time</h2>
+              <h2 className="font-display text-lg font-semibold text-ink">Completed collabs & earnings over time</h2>
             </div>
             <TrendChart data={trend} />
           </div>
